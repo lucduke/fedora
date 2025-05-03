@@ -1,0 +1,14 @@
+#add:packagename
+#del:packagename
+
+# Gnome extensions
+add:com.mattjakeman.ExtensionManager
+
+# Flatsweep
+add:io.github.giantpinkrobots.flatsweep
+
+# gThumb
+add:org.gnome.gThumb
+
+# Warpinator
+add:org.x.Warpinator

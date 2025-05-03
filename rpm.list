@@ -1,0 +1,82 @@
+#add:packagename
+#del:packagename
+
+# GNOME Apps
+add:dconf-editor
+add:gnome-tweaks
+
+# Multimedia
+add:libavcodec-freeworld
+
+# Scripting
+add:code
+add:python3-distutils-extra
+add:shellcheck
+add:uv
+
+# Systeme
+add:at
+add:bash-completion
+add:bat
+add:cpu-x
+add:dislocker
+add:fastfetch
+add:git
+add:glances
+add:htop
+add:ifuse
+add:inxi
+add:lbzip2
+add:lshw
+add:lsscsi
+add:nmon
+add:ncdu
+add:numlockx
+add:pdftk-java
+add:pigz
+add:qrencode
+add:ripgrep
+add:s-tui
+add:sqlitebrowser
+add:tmux
+add:tuned
+add:xfsprogs
+
+# Disques
+add:gdisk
+add:smartmontools
+
+# Réseau
+add:cifs-utils
+add:curl
+add:nfs-utils
+add:nmap
+add:samba-common
+add:traceroute
+add:wget2
+add:whois
+
+# Multimedia
+add:gphoto2
+add:heif-pixbuf-loader
+add:ideviceinstaller
+add:mediainfo
+add:libimobiledevice-utils
+add:libheif
+add:yt-dlp
+
+# backup
+add:timeshift
+
+# Multimedia
+add:audacity
+add:kdenlive
+add:mediainfo-gui
+add:obs-studio
+add:smplayer
+add:soundconverter
+add:strawberry
+add:vlc
+
+# Utilitaires
+add:nextcloud-client
