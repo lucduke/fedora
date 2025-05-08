@@ -5,10 +5,6 @@
 add:dconf-editor
 add:gnome-tweaks
 
-# Multimedia
-add:libavcodec-freeworld
-add:easyeffects
-
 # Scripting
 add:code
 add:python3-distutils-extra
@@ -57,27 +53,28 @@ add:traceroute
 add:wget2
 add:whois
 
-# Multimedia
-add:gphoto2
-add:heif-pixbuf-loader
-add:ideviceinstaller
-add:mediainfo
-add:libimobiledevice-utils
-add:libheif
-add:yt-dlp
-
-# backup
+# Backup
 add:timeshift
 
 # Multimedia
 add:audacity
+add:easyeffects
+add:gphoto2
+add:heif-pixbuf-loader
+add:ideviceinstaller
 add:kdenlive
+add:mediainfo
 add:mediainfo-gui
 add:obs-studio
+add:libavcodec-freeworld
+add:libimobiledevice-utils
+add:libheif
 add:smplayer
 add:soundconverter
+add:steam
 add:strawberry
 add:vlc
+add:yt-dlp
 
 # Utilitaires
 add:nextcloud-client
