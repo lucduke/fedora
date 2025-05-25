@@ -15,12 +15,16 @@ add:uv
 add:at
 add:bash-completion
 add:bat
+add:btop
 add:cpu-x
 add:dislocker
+add:duf
 add:fastfetch
+add:fd-find
 add:git
 add:glances
 add:htop
+add:httpie
 add:ifuse
 add:inxi
 add:lbzip2
