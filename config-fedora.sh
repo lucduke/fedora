@@ -7,6 +7,13 @@ GNOMECOMPADD="gnome-extensions-app gnome-shell-extension-appindicator gnome-shel
 GNOMECOMPDEL="gnome-2048 gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin gnome-games gnome-music totem five-or-more hitori iagno four-in-a-row quadrapassel lightsoff tali gnome-tetravex swell-foop rhythmbox"
 ICI=$(dirname "$0")
 
+# Variables pour les téléchargements RPM
+NAPS2_VERSION="8.1.4"
+NAPS2_URL="https://github.com/cyanfish/naps2/releases/download/v${NAPS2_VERSION}/naps2-${NAPS2_VERSION}-linux-x64.rpm"
+NAPS2_TEMP_RPM="/tmp/naps2.rpm"
+HEROIC_VERSION="2.18.0"
+HEROIC_URL="https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v${HEROIC_VERSION}/Heroic-${HEROIC_VERSION}-linux-x86_64.rpm"
+HEROIC_TEMP_RPM="/tmp/heroic.rpm"
 
 #################
 ### FONCTIONS ###
@@ -224,12 +231,71 @@ fi
 echo -e "\033[1;34m09- Installation de NAPS2\033[0m"
 if ! check_pkg naps2
 then
-	wget -O /tmp/naps2.rpm https://github.com/cyanfish/naps2/releases/download/v8.1.4/naps2-8.1.4-linux-x64.rpm
-	dnf install -y /tmp/naps2.rpm
-	rm -f /tmp/naps2.rpm
+    echo "- - - Téléchargement de NAPS2 v${NAPS2_VERSION}..."
+    
+    # Nettoyage préventif du fichier temporaire
+    rm -f "${NAPS2_TEMP_RPM}"
+
+    # Téléchargement avec gestion d'erreurs et timeout
+    if wget --timeout=30 --tries=3 -O "${NAPS2_TEMP_RPM}" "${NAPS2_URL}"; then
+        echo "- - - Téléchargement réussi, vérification du fichier..."
+        
+        # Vérification que le fichier existe et n'est pas vide
+        if [[ -f "${NAPS2_TEMP_RPM}" && -s "${NAPS2_TEMP_RPM}" ]]; then
+            echo "- - - Fichier valide, installation en cours..."
+            
+            # Installation avec gestion d'erreurs
+            if dnf install -y "${NAPS2_TEMP_RPM}"; then
+                echo "- - - Installation de NAPS2 réussie"
+                rm -f "${NAPS2_TEMP_RPM}"
+            else
+                echo -e "\033[31mERREUR\033[0m Installation de NAPS2 échouée"
+                rm -f "${NAPS2_TEMP_RPM}"
+                exit 1
+            fi
+        else
+            echo -e "\033[31mERREUR\033[0m Fichier téléchargé invalide ou vide"
+            rm -f "${NAPS2_TEMP_RPM}"
+            exit 1
+        fi
+    else
+        echo -e "\033[31mERREUR\033[0m Échec du téléchargement de NAPS2"
+        rm -f "${NAPS2_TEMP_RPM}"
+        exit 1
+    fi
 fi
 
-## ajoout de sshs
+## Ajout Heroic Games Launcher
+echo -e "\033[1;34m08- Installation de Heroic Games Launcher\033[0m"
+if ! check_pkg heroic
+then
+	echo "- - - Téléchargement de Heroic Games Launcher v${HEROIC_VERSION}..."
+    rm -f "${HEROIC_TEMP_RPM}"
+    if wget --timeout=30 --tries=3 -O "${HEROIC_TEMP_RPM}" "${HEROIC_URL}"; then
+        echo "- - - Téléchargement réussi, vérification du fichier..."
+        if [[ -f "${HEROIC_TEMP_RPM}" && -s "${HEROIC_TEMP_RPM}" ]]; then
+            echo "- - - Fichier valide, installation en cours..."
+            if dnf install -y "${HEROIC_TEMP_RPM}"; then
+                echo "- - - Installation de Heroic Games Launcher réussie"
+                rm -f "${HEROIC_TEMP_RPM}"
+            else
+                echo -e "\033[31mERREUR\033[0m Installation de Heroic Games Launcher échouée"
+                rm -f "${HEROIC_TEMP_RPM}"
+                exit 1
+            fi
+        else
+            echo -e "\033[31mERREUR\033[0m Fichier téléchargé invalide ou vide"
+            rm -f "${HEROIC_TEMP_RPM}"
+            exit 1
+        fi
+    else
+        echo -e "\033[31mERREUR\033[0m Échec du téléchargement de Heroic Games Launcher"
+        rm -f "${HEROIC_TEMP_RPM}"
+        exit 1
+    fi
+fi
+
+## ajout de sshs
 echo -e "\033[1;34m10- Installation de SSHS\033[0m"
 ### On teste l'existence du binaire sshs dans /usr/local/bin
 if [ ! -f /usr/local/bin/sshs ]
