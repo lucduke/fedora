@@ -42,6 +42,7 @@ add:sqlitebrowser
 add:tmux
 add:tuned
 add:xfsprogs
+add:yumex
 
 # Disques
 add:gdisk
@@ -62,6 +63,7 @@ add:timeshift
 
 # Multimedia
 add:audacity
+add:digikam
 add:easyeffects
 add:gphoto2
 add:heif-pixbuf-loader

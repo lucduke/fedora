@@ -127,6 +127,9 @@ then
 fi
 
 # Autres cas
+## Ajout du dépôt Fedora Copr adriend
+dnf copr enable adriend/fedora-apps
+
 ## Update du système
 echo -e "\033[1;34m00- - Update du système : \033[0m"
 upgrade_dnf
