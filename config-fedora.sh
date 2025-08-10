@@ -14,6 +14,9 @@ NAPS2_TEMP_RPM="/tmp/naps2.rpm"
 HEROIC_VERSION="2.18.0"
 HEROIC_URL="https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v${HEROIC_VERSION}/Heroic-${HEROIC_VERSION}-linux-x86_64.rpm"
 HEROIC_TEMP_RPM="/tmp/heroic.rpm"
+RUSTDESK_VERSION="1.4.1"
+RUSTDESK_URL="https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-0.x86_64.rpm"
+RUSTDESK_TEMP_RPM="/tmp/rustdesk.rpm"
 
 #################
 ### FONCTIONS ###
@@ -294,6 +297,36 @@ then
     else
         echo -e "\033[31mERREUR\033[0m Échec du téléchargement de Heroic Games Launcher"
         rm -f "${HEROIC_TEMP_RPM}"
+        exit 1
+    fi
+fi
+
+## Ajout de Rustdesk
+echo -e "\033[1;34m09- Installation de Rustdesk\033[0m"
+if ! check_pkg rustdesk
+then
+	echo "- - - Téléchargement de Rustdesk v${RUSTDESK_VERSION}..."
+    rm -f "${RUSTDESK_TEMP_RPM}"
+    if wget --timeout=30 --tries=3 -O "${RUSTDESK_TEMP_RPM}" "${RUSTDESK_URL}"; then
+        echo "- - - Téléchargement réussi, vérification du fichier..."
+        if [[ -f "${RUSTDESK_TEMP_RPM}" && -s "${RUSTDESK_TEMP_RPM}" ]]; then
+            echo "- - - Fichier valide, installation en cours..."
+            if dnf install -y "${RUSTDESK_TEMP_RPM}"; then
+                echo "- - - Installation de Rustdesk réussie"
+                rm -f "${RUSTDESK_TEMP_RPM}"
+            else
+                echo -e "\033[31mERREUR\033[0m Installation de Rustdesk échouée"
+                rm -f "${RUSTDESK_TEMP_RPM}"
+                exit 1
+            fi
+        else
+            echo -e "\033[31mERREUR\033[0m Fichier téléchargé invalide ou vide"
+            rm -f "${RUSTDESK_TEMP_RPM}"
+            exit 1
+        fi
+    else
+        echo -e "\033[31mERREUR\033[0m Échec du téléchargement de Rustdesk"
+        rm -f "${RUSTDESK_TEMP_RPM}"
         exit 1
     fi
 fi
