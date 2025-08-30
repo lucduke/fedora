@@ -19,6 +19,7 @@ add:btop
 add:cpu-x
 add:dislocker
 add:duf
+add:exfat-utils
 add:fastfetch
 add:fd-find
 add:git
