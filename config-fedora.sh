@@ -31,7 +31,7 @@ else
 fi
 }
 
-# Vérifie si un paquet Debian est installé
+# Vérifie si un paquet Fedora est installé
 check_pkg() {
 	rpm -q "$1" > /dev/null
 }
@@ -95,13 +95,6 @@ upgrade_dnf()
 update_flatpak()
 {
 	flatpak update --noninteractive
-}
-
-# Télécharge le paquet .deb depuis une URL et l'installe
-add_deb_pkg() {
-    wget -O /tmp/tmp.deb "$1"
-    dpkg -i /tmp/tmp.deb
-    apt install -f -y
 }
 
 ####################
@@ -398,4 +391,46 @@ then
 	### On ajoute le point de montage dans le fstab
 	echo -e "\n# Point de montage deemix pour le NAS" >> /etc/fstab
 	echo -e "nas.lan:/srv/raid/nfs/docker/deemix_nfs_downloads /mnt/nfs_deemix nfs rw,intr,_netdev,nofail 0 0" >> /etc/fstab
+fi
+
+## Ajout d'alias dans .bashrc
+echo -e "\033[1;34m13- Ajout d'alias dans .bashrc\033[0m"
+if [ -n "$SUDO_USER" ]; then
+    BASHRC_PATH="/home/$SUDO_USER/.bashrc"
+    if [ -f "$BASHRC_PATH" ]; then
+        ALIASES_ADDED=false
+        if ! grep -q "alias meteo" "$BASHRC_PATH"; then
+            echo "alias meteo=\"curl wttr.in\"" >> "$BASHRC_PATH"
+            ALIASES_ADDED=true
+        fi
+        if ! grep -q "alias cat" "$BASHRC_PATH"; then
+            echo "alias cat=\"bat\"" >> "$BASHRC_PATH"
+            ALIASES_ADDED=true
+        fi
+        if ! grep -q "alias duf" "$BASHRC_PATH"; then
+            echo "alias duf=\"duf --hide special\"" >> "$BASHRC_PATH"
+            ALIASES_ADDED=true
+        fi
+        if ! grep -q "alias trouve" "$BASHRC_PATH"; then
+            echo "alias trouve=\"fd\"" >> "$BASHRC_PATH"
+            ALIASES_ADDED=true
+        fi
+        if ! grep -q "alias download" "$BASHRC_PATH"; then
+            echo "alias download=\"http --download\"" >> "$BASHRC_PATH"
+            ALIASES_ADDED=true
+        fi
+        if ! grep -q "alias python" "$BASHRC_PATH"; then
+            echo "alias python=\"uv run python\"" >> "$BASHRC_PATH"
+            ALIASES_ADDED=true
+        fi
+        if $ALIASES_ADDED; then
+            echo -e "\033[32mAlias ajoutés à $BASHRC_PATH\033[0m"
+        else
+            echo -e "\033[32mTous les alias sont déjà présents dans $BASHRC_PATH\033[0m"
+        fi
+    else
+        echo -e "\033[31mERREUR\033[0m Fichier .bashrc non trouvé pour l'utilisateur $SUDO_USER"
+    fi
+else
+    echo -e "\033[31mERREUR\033[0m Impossible de déterminer l'utilisateur (SUDO_USER non défini). Lancez le script avec sudo."
 fi
