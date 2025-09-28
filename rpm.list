@@ -58,6 +58,7 @@ add:samba-common
 add:traceroute
 add:wget2
 add:whois
+add:wireguard-tools
 
 # Backup
 add:timeshift
