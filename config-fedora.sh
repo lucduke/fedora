@@ -14,7 +14,7 @@ NAPS2_TEMP_RPM="/tmp/naps2.rpm"
 HEROIC_VERSION="2.18.0"
 HEROIC_URL="https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v${HEROIC_VERSION}/Heroic-${HEROIC_VERSION}-linux-x86_64.rpm"
 HEROIC_TEMP_RPM="/tmp/heroic.rpm"
-RUSTDESK_VERSION="1.4.1"
+RUSTDESK_VERSION="1.4.2"
 RUSTDESK_URL="https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VERSION}/rustdesk-${RUSTDESK_VERSION}-0.x86_64.rpm"
 RUSTDESK_TEMP_RPM="/tmp/rustdesk.rpm"
 
@@ -335,6 +335,27 @@ then
 	chmod +x /usr/local/bin/sshs
 fi
 
+## Ajout de AppImageLauncher
+echo -e "\033[1;34m10- Installation de AppImageLauncher\033[0m"
+### On teste si le paquet est installé
+if ! check_pkg appimagelauncher
+then
+    ### On le télécharge et installe
+    wget -O /tmp/appimagelauncher.rpm https://github.com/TheAssassin/AppImageLauncher/releases/download/v3.0.0-beta-1/appimagelauncher_3.0.0-alpha-4-gha275.0bcc75d_x86_64.rpm
+    dnf install -y /tmp/appimagelauncher.rpm
+fi
+
+## Ajout de LM Studio
+echo -e "\033[1;34m10- Installation de LM Studio\033[0m"
+### On teste si l'AppImage est installé dans /opt/appimage
+if ! find /opt/appimage -maxdepth 1 -name 'LM-Studio*.AppImage' | grep -q .
+then
+    ### On le télécharge
+    wget -O /tmp/LM-Studio.AppImage https://installers.lmstudio.ai/linux/x64/0.3.28-2/LM-Studio-0.3.28-2-x64.AppImage
+    ### On le rend disponible pour tous les utilisateurs
+    chmod 755 /tmp/LM-Studio.AppImage
+fi
+
 ## Ajout de points de montage CIFS
 echo -e "\033[1;34m11- Ajout de points de montage CIFS\033[0m"
 ### On teste si le fichier de credentials existe
@@ -370,27 +391,6 @@ then
 	### On ajoute le point de montage dans le fstab
 	echo -e "\n# Point de montage software pour le NAS" >> /etc/fstab
 	echo -e "//nas.lan/software /mnt/software cifs _netdev,nofail,credentials=/etc/cifs-credentials,uid=1000,gid=1000,vers=3.0,noperm 0 0" >> /etc/fstab
-fi
-
-## Ajout de points de montage NFS
-echo -e "\033[1;34m12- Ajout de points de montage NFS\033[0m"
-### On teste si le répertoire nfs_photoview existe
-if [ ! -d /mnt/nfs_photoview ]
-then
-	### On le crée
-	mkdir -p /mnt/nfs_photoview
-	### On ajoute le point de montage dans le fstab
-	echo -e "\n# Point de montage photoview pour le NAS" >> /etc/fstab
-	echo -e "nas.lan:/srv/no-raid/nfs1/docker/photoview_nfs_photos /mnt/nfs_photoview nfs defaults,intr,_netdev,nofail 0 0" >> /etc/fstab
-fi
-### On teste si le répertoire nfs_deemix existe
-if [ ! -d /mnt/nfs_deemix ]
-then
-	### On le crée
-	mkdir -p /mnt/nfs_deemix
-	### On ajoute le point de montage dans le fstab
-	echo -e "\n# Point de montage deemix pour le NAS" >> /etc/fstab
-	echo -e "nas.lan:/srv/raid/nfs/docker/deemix_nfs_downloads /mnt/nfs_deemix nfs rw,intr,_netdev,nofail 0 0" >> /etc/fstab
 fi
 
 ## Ajout d'alias dans .bashrc
