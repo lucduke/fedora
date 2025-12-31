@@ -143,7 +143,7 @@ check_cmd
 
 ## Installation de rpm fusion
 echo -e "\033[1;34m03- - Installation de RPM Fusion : \033[0m"
-dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && dnf install -y rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data && dnf install -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 check_cmd
 
 ## Installation du depot vsCode
